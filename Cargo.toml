@@ -1,0 +1,11 @@
+[package]
+name = "testServerWithAXUM"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.8.8"
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] } # DTO용
+serde_json = "1.0"
+uuid = { version = "1.0", features = ["v4", "serde"] } # ID 생성용
