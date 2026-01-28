@@ -3,6 +3,6 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 pub struct CreateToDoListRequest {
 
-    title: String,
-    content: String
+    pub title: String,
+    pub content: String
 }

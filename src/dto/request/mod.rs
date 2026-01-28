@@ -1,2 +1,2 @@
-mod create_to_do_list_request;
-mod update_to_do_list_request;
+pub mod create_to_do_list_request;
+pub mod update_to_do_list_request;
