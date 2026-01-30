@@ -15,7 +15,7 @@ pub async fn create_handler(
     ToDoService::create_todo_list(&db, request)
         .await
         .map(Json)
-        .map_err(|e| StatusCode::INTERNAL_SERVER_ERROR)
+        .map_err(|_e| StatusCode::INTERNAL_SERVER_ERROR)
 }
 
 pub async fn read_handler(
@@ -26,7 +26,7 @@ pub async fn read_handler(
     ToDoService::read_todo_list(&db, id)
         .await
         .map(Json)
-        .map_err(|e| StatusCode::INTERNAL_SERVER_ERROR)
+        .map_err(|_e| StatusCode::INTERNAL_SERVER_ERROR)
 }
 
 pub async fn read_all_handler(
@@ -36,7 +36,7 @@ pub async fn read_all_handler(
     ToDoService::read_all_todo_list(&db)
         .await
         .map(Json)
-        .map_err(|e| StatusCode::NOT_FOUND)
+        .map_err(|_e| StatusCode::NOT_FOUND)
 }
 
 pub async fn update_handler(
@@ -48,5 +48,16 @@ pub async fn update_handler(
     ToDoService::update_todo_list(&db, id, request)
         .await
         .map(Json)
-        .map_err(|e| StatusCode::BAD_REQUEST)
+        .map_err(|_e| StatusCode::BAD_REQUEST)
+}
+
+pub async fn delete_handler(
+    State(db): State<DbConn>,
+    Path(id): Path<u64>
+) -> Result<String, StatusCode> {
+
+    ToDoService::delete_todo_list(&db, id)
+        .await
+        .map(|_| "삭제되었습니다.".to_string())
+        .map_err(|_e| StatusCode::NOT_FOUND)
 }

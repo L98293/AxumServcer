@@ -4,13 +4,12 @@ mod service;
 mod handler;
 
 use axum::{
-    Router,
+    Router
 };
 use sea_orm::{Database, DbConn};
 use std::env;
-use axum::routing::{get, post, put};
-use handler::todo_handler::create_handler;
-use crate::handler::todo_handler::{read_all_handler, read_handler, update_handler};
+use axum::routing::{post, get, put, delete};
+use crate::handler::todo_handler::{create_handler, read_handler, read_all_handler,  update_handler, delete_handler};
 
 #[tokio::main]
 async fn main() {
@@ -28,6 +27,7 @@ async fn main() {
         .route("/read/{id}", get(read_handler))
         .route("/read", get(read_all_handler))
         .route("/update/{id}", put(update_handler))
+        .route("/delete/{id}", delete(delete_handler))
         .with_state(db);
     
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
