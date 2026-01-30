@@ -1,7 +1,6 @@
 use sea_orm::DbErr;
 use sea_orm::*;
 use sea_orm::ActiveValue::Set;
-use sea_orm::DbErr::Json;
 use crate::entity::todo;
 use crate::dto::request::create_to_do_list_request::CreateToDoListRequest;
 use crate::dto::request::update_to_do_list_request::UpdateToDoListRequest;
@@ -73,5 +72,22 @@ impl ToDoService {
         let update_todo = todo_active.update(db).await?;
 
         Ok(update_todo)
+    }
+
+    pub async fn delete_todo_list (
+        db: &DbConn,
+        id: u64
+    ) -> Result<(), DbErr> {
+
+        todo::Entity::find_by_id(id)
+            .one(db)
+            .await?
+            .ok_or(DbErr::Custom("Todo Not Found".to_string()))?;
+
+        todo::Entity::delete_by_id(id)
+            .exec(db)
+            .await?;
+
+        Ok(())
     }
 }
